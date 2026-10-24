@@ -1,5 +1,9 @@
 include .env
 
+# Subir VERSION en cada release: :latest sola no deja volver a una imagen anterior
+VERSION := 1
+IMAGE := southamerica-east1-docker.pkg.dev/audfarmfr/cosua-cre/front-cosua-cre
+
 .PHONY: build local push login help
 
 login:
@@ -8,17 +12,20 @@ login:
 
 build:
 	docker build --no-cache \
-		--tag southamerica-east1-docker.pkg.dev/audfarmfr/cosua-cre/front-cosua-cre:latest \
+		--tag $(IMAGE):$(VERSION) \
+		--tag $(IMAGE):latest \
 		--file Dockerfile.bun \
 		--platform=linux/amd64 .
 
 local:
 	docker build --no-cache \
-		--tag southamerica-east1-docker.pkg.dev/audfarmfr/cosua-cre/front-cosua-cre:latest \
+		--tag $(IMAGE):$(VERSION) \
+		--tag $(IMAGE):latest \
 		--file Dockerfile.bun .
 
 push: login build
-	docker push southamerica-east1-docker.pkg.dev/audfarmfr/cosua-cre/front-cosua-cre:latest
+	docker push $(IMAGE):$(VERSION)
+	docker push $(IMAGE):latest
 
 help:
 	@grep -E '^[a-zA-Z0-9_-]+:' Makefile | sed 's/:.*//' | sort

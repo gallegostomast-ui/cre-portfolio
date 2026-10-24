@@ -82,6 +82,8 @@ make local
 make push
 ```
 
+La imagen se taggea con `VERSION` (definida en el `Makefile`) y con `latest`. Subí `VERSION` en cada release para poder volver a una imagen anterior.
+
 La imagen expone el puerto `8083`. La variable `INTERNAL_API_URL` se puede sobreescribir en `docker run` o `docker-compose`:
 
 ```bash
